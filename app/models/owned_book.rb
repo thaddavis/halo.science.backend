@@ -1,0 +1,3 @@
+class OwnedBook < ApplicationRecord
+    
+end

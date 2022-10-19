@@ -9,4 +9,5 @@ Rails.application.routes.draw do
   post "/wishlist_items", to: "wishlist#add_item"
 
   resources :books
+  resources :owned_books
 end

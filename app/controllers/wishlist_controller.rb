@@ -4,15 +4,16 @@ class WishlistController < ActionController::Base
     def index
         if params[:user_id]
             wishlist = Wishlist.where(user_id: params[:user_id]).first
+            owned_books = OwnedBook.where(user_id: params[:user_id])
             wishlist_items = wishlist.wishlist_items.preload(:book).collect(&:book)
-
             authors = wishlist.wishlist_items.preload(:author).collect(&:author)
             result = {
                 :id => wishlist.id,
                 :og_wishlist => wishlist.wishlist_items,
                 :authors => authors,
                 :wishlist => wishlist_items,
-                :wishlistUpdatedAt => wishlist.updated_at
+                :wishlistUpdatedAt => wishlist.updated_at,
+                :owned_books => owned_books
             } 
             render :json => result
         else 
@@ -39,7 +40,7 @@ class WishlistController < ActionController::Base
             render :json => wishlist_item, :status => 200
         else
             puts "** there **"
-            return :status => 404
+            return :status => 500
         end
     end
 

@@ -1,10 +1,11 @@
 class BooksController < ActionController::Base
+    skip_before_action :verify_authenticity_token
 
     def index
         puts "___ INDEX"
 
-        @books = Books.all
-        render :json => @books 
+        books = Books.all
+        render :json => books 
     end
 
     def show

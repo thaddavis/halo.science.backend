@@ -6,8 +6,6 @@ class WishlistController < ActionController::Base
             wishlist = Wishlist.where(user_id: params[:user_id]).first
             wishlist_items = wishlist.wishlist_items.preload(:book).collect(&:book)
 
-            debugger
-
             authors = wishlist.wishlist_items.preload(:author).collect(&:author)
             result = {
                 :id => wishlist.id,
@@ -35,8 +33,6 @@ class WishlistController < ActionController::Base
             wishlist_id: wishlist_item_params[:wishlist_id],
             book_id: book.id
         )
-
-        debugger
 
         if wishlist_item.save
             puts "** here **"

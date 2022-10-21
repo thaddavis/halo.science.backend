@@ -4,7 +4,7 @@ class WishlistController < ActionController::Base
     def index
         if params[:user_id]
             wishlist = Wishlist.where(user_id: params[:user_id]).first
-            owned_books = OwnedBook.where(user_id: params[:user_id])
+            owned_books = OwnedBook.where(user_id: params[:user_id]).joins(:book).collect(&:book)
             wishlist_items = wishlist.wishlist_items.preload(:book).collect(&:book)
             authors = wishlist.wishlist_items.preload(:author).collect(&:author)
             result = {
@@ -29,7 +29,6 @@ class WishlistController < ActionController::Base
         book = Book.where("title = ?", wishlist_item_params[:title]).first
         
         wishlist_item = WishlistItem.new(
-            title: wishlist_item_params[:title],
             author_id: author.id,
             wishlist_id: wishlist_item_params[:wishlist_id],
             book_id: book.id
@@ -46,7 +45,7 @@ class WishlistController < ActionController::Base
 
     def delete_item
         if params[:id] && WishlistItem.find(params[:id])
-            WishlistItem.delete(params[:id])
+            WishlistItem.destroy(params[:id])
             return :status => 200
         else 
             return :status => 404

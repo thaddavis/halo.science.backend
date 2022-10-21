@@ -1,24 +1,9 @@
-# README
+rails generate migration RemoveTitleFromWishlistItems title:string
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+rails generate migration AddWishlistItemToOwnedBook wishlist_item_id:integer
 
-Things you may want to cover:
+rails g migration AddUniqueIndexToOwnedBooks
 
-* Ruby version
+rails db:migrate
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+rails db:rollback STEP=1

@@ -5,14 +5,12 @@ class WishlistController < ActionController::Base
         if params[:user_id]
             wishlist = Wishlist.where(user_id: params[:user_id]).first
             wishes = wishlist.wishes
-            owned_books = wishlist.wishes.preload(:owned_book).collect(&:owned_book)
+            owned_wishes = wishlist.wishes.preload(:owned_wish).collect(&:owned_wish)
             
             hydrated_wishlist = []
             
             wishes.each_with_index  { | value, index |
-                puts "_-_-_ #{index}"
-                hydrated_value = {}
-                
+                hydrated_value = {}    
                 hydrated_wish_val = {}
                 
                 case wishes[index].thing.class.name
@@ -26,8 +24,8 @@ class WishlistController < ActionController::Base
                 hydrated_value[:id] = value[:id]
                 hydrated_value[:wish_type] = wishes[index].thing.class.name
                 hydrated_value[:wish_val] = hydrated_wish_val
-                hydrated_value[:owned] = owned_books[index] ? true : false
-                hydrated_value[:owned_id] = owned_books[index] ? owned_books[index].id : nil
+                hydrated_value[:owned] = owned_wishes[index] ? true : false
+                hydrated_value[:owned_id] = owned_wishes[index] ? owned_wishes[index].id : nil
 
                 hydrated_wishlist << hydrated_value
             }
@@ -44,10 +42,6 @@ class WishlistController < ActionController::Base
     end
 
     def add_item
-        puts "** add_item **"
-        puts wish_params[:thing_type]
-        puts wish_params[:thing_val]
-
         case wish_params[:thing_type]
         when "Book"
             thing = Book.where("title = ?", wish_params[:thing_val][:title]).first            
@@ -62,12 +56,8 @@ class WishlistController < ActionController::Base
         )
 
         if wishlist_item.save
-            puts "** here **"
             render :json => wishlist_item, :status => 200
         else
-            puts "** there **"
-
-            debugger
             return :status => 500
         end
     end

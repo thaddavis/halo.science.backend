@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_21_164335) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_22_140643) do
   create_table "authors", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -30,7 +30,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_164335) do
 
   create_table "owned_books", force: :cascade do |t|
     t.integer "user_id"
-    t.integer "book_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "wishlist_item_id"
@@ -46,10 +45,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_21_164335) do
 
   create_table "wishlist_items", force: :cascade do |t|
     t.integer "wishlist_id"
-    t.integer "book_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "author_id"
+    t.string "thing_type"
+    t.integer "thing_id"
+    t.index ["thing_type", "thing_id"], name: "index_wishlist_items_on_thing"
   end
 
   create_table "wishlists", force: :cascade do |t|

@@ -13,17 +13,16 @@ class OwnedBooksController < ActionController::Base
 
         owned_book = OwnedBook.new(
             user_id: owned_book_params[:user_id],
-            book_id: owned_book_params[:book_id],
             wishlist_item_id: owned_book_params[:wishlist_item_id]
         )
 
         if owned_book.save
             puts "** here **"
-            
-            render :json => owned_book.book, :status => 200
+            return :status => 200
         else
+            debugger
             puts "** there **"
-            return :status => 500
+            render :json => owned_book.errors, :status => 500
         end
     end
 
@@ -37,9 +36,15 @@ class OwnedBooksController < ActionController::Base
 
     def destroy
         puts "___ DESTROY"
+        if params[:id] && OwnedBook.find(params[:id])
+            OwnedBook.destroy(params[:id])
+            return :status => 200
+        else 
+            return :status => 404
+        end
     end
 
     def owned_book_params
-        params.require(:owned_book).permit(:user_id, :book_id, :wishlist_item_id)
+        params.require(:owned_book).permit(:user_id, :wishlist_item_id)
     end
 end

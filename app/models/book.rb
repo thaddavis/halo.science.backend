@@ -1,7 +1,8 @@
 class Book < ApplicationRecord
     belongs_to :author
+
     has_many :owned_books
-    has_many :users, through: :owned_books
+    has_many :wishlist_items, as: :thing
 
     # Search owners who have actually read the book by first name, last name, or both.
     # Returns an array of user ids

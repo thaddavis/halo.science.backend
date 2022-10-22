@@ -3,9 +3,6 @@ class OwnedBooksController < ActionController::Base
 
     def index
         puts "___ INDEX ___"
-
-        owned_books = OwnedBooks.all.includes(:book).references(:book)
-        render :json => owned_books 
     end
 
     def create
@@ -13,14 +10,14 @@ class OwnedBooksController < ActionController::Base
 
         owned_book = OwnedBook.new(
             user_id: owned_book_params[:user_id],
-            wishlist_item_id: owned_book_params[:wishlist_item_id]
+            wish_id: owned_book_params[:wish_id]
         )
 
         if owned_book.save
             puts "** here **"
             return :status => 200
         else
-            debugger
+            # debugger
             puts "** there **"
             render :json => owned_book.errors, :status => 500
         end
@@ -45,6 +42,6 @@ class OwnedBooksController < ActionController::Base
     end
 
     def owned_book_params
-        params.require(:owned_book).permit(:user_id, :wishlist_item_id)
+        params.require(:owned_book).permit(:user_id, :wish_id)
     end
 end

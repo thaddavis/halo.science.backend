@@ -1,6 +1,5 @@
 class OwnedBook < ApplicationRecord
-    belongs_to :wishlist_item, :class_name => "WishlistItem", :foreign_key => "wishlist_item_id"
+    belongs_to :wish, :class_name => "Wish", :foreign_key => "wish_id"
 
-
-    validates :wishlist_item_id, uniqueness: true
+    validates :wish_id, uniqueness: true
 end

@@ -35,8 +35,28 @@ class BooksController < ActionController::Base
         end
     end
 
+    def first_owners
+        puts "_v_v_ first_owners _v_v_"
+        first_owners = Book.first_owners()
+        puts "_^_^_ first_owners _^_^_"
+        puts first_owners
+        render :json => first_owners, :status => 200
+    end
+
+    def genre_stats
+        puts "_v_v_ genre_stats _v_v_"
+        stats = Book.genre_stats(params[:genre])
+        puts "_^_^_ genre_stats _^_^_"
+        puts stats
+        render :json => stats, :status => 200
+    end
+
     def search_params
         params.require(:query).permit(:book_search_term)
+    end
+
+    def genre_stats_params
+        params.permit(:genre)
     end
 
 end

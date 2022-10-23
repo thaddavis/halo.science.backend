@@ -1,6 +1,8 @@
 class OwnedWish < ApplicationRecord
     belongs_to :wish, :class_name => "Wish", :foreign_key => "wish_id"
 
+    belongs_to :user
+
     validates :wish_id, uniqueness: true
 
     after_save :update_wishlist

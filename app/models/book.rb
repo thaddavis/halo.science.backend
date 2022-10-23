@@ -5,10 +5,49 @@ class Book < ApplicationRecord
     has_many :wishes, as: :thing
     has_many :readings, dependent: :destroy
 
+    # Search who has actually read the book by first name, last name, or both.
+    def search_readings()
+        readings = self
+        .readings
+        .includes(:user)
+
+        hydrated_readings = []
+            
+        readings.each_with_index { | value, index |
+            hydrated_reading = {}
+            
+            # debugger
+
+            hydrated_reading[:id] = value.id
+            hydrated_reading[:book] = value.book
+            hydrated_reading[:user] = value.user
+
+            # case wishes[index].thing.class.name
+            # when "Book"
+            #     hydrated_wish_val[:author] = wishes[index].thing.author
+            #     hydrated_wish_val[:book] = wishes[index].thing
+            #     hydrated_wish_val[:readings] = wishes[index].thing.readings
+            # else
+            #     raise "UNSUPPORTED_WISH_TYPE"
+            # end
+
+            # hydrated_value[:id] = value[:id]
+            # hydrated_value[:wish_type] = wishes[index].thing.class.name
+            # hydrated_value[:wish_val] = hydrated_wish_val
+            # hydrated_value[:owned] = owned_wishes[index] ? true : false
+            # hydrated_value[:owned_id] = owned_wishes[index] ? owned_wishes[index].id : nil
+
+            hydrated_readings << hydrated_reading
+        }
+        hydrated_readings
+    end
+
     # Search owners who have actually read the book by first name, last name, or both.
     # Returns an array of user ids
-    # def searched_readers(search_input)
+    # def search_readers(search_input)
+    #     debugger
     #     self
+    #     .reading
     #     .users
     #     .where('first_name ILIKE ?', search_input)
     #     .or(where('last_name ILIKE ?', search_input))

@@ -12,5 +12,6 @@ Rails.application.routes.draw do
   resources :owned_wishes
   resources :readings
 
+  post "/search_readings", to: "books#search_readings"
   get "/users/give_away_possessions/:user_id", to: "users#give_away_possessions"
 end

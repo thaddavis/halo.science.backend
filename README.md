@@ -7,3 +7,5 @@ rails g migration AddUniqueIndexToOwnedBooks
 rails db:migrate
 
 rails db:rollback STEP=1
+
+reload!

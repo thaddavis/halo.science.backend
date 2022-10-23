@@ -4,10 +4,13 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  get "/wishlist", to: "wishlist#index"
-  delete "/wishlist_items/:id", to: "wishlist#delete_item"
-  post "/wishlist_items", to: "wishlist#add_item"
+  get "/wishlists", to: "wishlists#index"
+  delete "/wishlist_items/:id", to: "wishlists#delete_item"
+  post "/wishlist_items", to: "wishlists#add_item"
 
   resources :books
   resources :owned_wishes
+  resources :readings
+
+  get "/users/give_away_possessions/:user_id", to: "users#give_away_possessions"
 end

@@ -1,4 +1,4 @@
-class WishlistController < ActionController::Base
+class WishlistsController < ActionController::Base
     skip_before_action :verify_authenticity_token
 
     def index
@@ -17,6 +17,7 @@ class WishlistController < ActionController::Base
                 when "Book"
                     hydrated_wish_val[:author] = wishes[index].thing.author
                     hydrated_wish_val[:book] = wishes[index].thing
+                    hydrated_wish_val[:readings] = wishes[index].thing.readings
                 else
                     raise "UNSUPPORTED_WISH_TYPE"
                 end

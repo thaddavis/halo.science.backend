@@ -19,6 +19,8 @@ class Book < ApplicationRecord
             hydrated_reading[:id] = value.id
             hydrated_reading[:book] = value.book
             hydrated_reading[:user] = value.user
+            hydrated_reading[:author] = value.book.author
+            hydrated_reading[:last_read] = value.created_at
 
             hydrated_readings << hydrated_reading
         }
@@ -39,6 +41,7 @@ class Book < ApplicationRecord
                 {
                     id: first_ownership_record.id,
                     title: book.title,
+                    author: (book.author.first_name + " " + book.author.last_name).strip,
                     first_name: first_owner.first_name,
                     last_name: first_owner.last_name,
                     first_owned: first_ownership_record.created_at
@@ -63,7 +66,7 @@ class Book < ApplicationRecord
 
         {
             average_page_length: genre_books_total_pages / total_genre_books,
-            percentage_of_authors: genre_authors.length / total_authors
+            percentage_of_authors: (genre_authors.length / total_authors).round(2) * 100 
         }
     end
 end

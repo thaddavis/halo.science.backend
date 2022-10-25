@@ -72,6 +72,10 @@ class WishlistsController < ActionController::Base
         end
     end
 
+    def healthcheck
+        render :json => "ok", :status => 200
+    end
+
     private
 
     def wish_params

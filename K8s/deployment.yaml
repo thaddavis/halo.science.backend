@@ -1,0 +1,19 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: ruby-docker
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ruby-docker
+  template:
+    metadata:
+      labels:
+        app: ruby-docker
+    spec:
+      containers:
+        - name: ruby-docker
+          image: thaddavis/ruby-docker:v4
+          ports:
+            - containerPort: 3000

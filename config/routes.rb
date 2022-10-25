@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  get "/healthcheck", to: "wishlists#healthcheck"
+
   get "/wishlists", to: "wishlists#index"
   delete "/wishlist_items/:id", to: "wishlists#delete_item"
   post "/wishlist_items", to: "wishlists#add_item"

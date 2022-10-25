@@ -30,5 +30,8 @@ module Backend
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.hosts << "a848d06f39c6b49aba4263894e84e454-795743795.us-east-1.elb.amazonaws.com"
+    config.hosts << "ac3190cb4d0ea46b5ae8e4562e28045e-990658469.us-east-1.elb.amazonaws.com"
   end
 end

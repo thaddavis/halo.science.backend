@@ -14,4 +14,4 @@ docker build -t thaddavis/ruby-docker .
 
 docker run -d -p 3000:3000 thaddavis/ruby-docker
 
-docker push thaddavis/ruby-docker:v4
+docker push thaddavis/ruby-docker:v10

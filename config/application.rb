@@ -33,5 +33,10 @@ module Backend
 
     config.hosts << "a848d06f39c6b49aba4263894e84e454-795743795.us-east-1.elb.amazonaws.com"
     config.hosts << "ac3190cb4d0ea46b5ae8e4562e28045e-990658469.us-east-1.elb.amazonaws.com"
+    config.hosts << "k8s-rubybe-rubybein-c608ba26fb-1007715162.us-east-1.elb.amazonaws.com"
+    config.hosts << "api.wishbliss.link"
+
+    # config.web_console.permissions = '192.168.0.0/16'
+    config.web_console.whitelisted_ips = '192.168.0.0/16'
   end
 end

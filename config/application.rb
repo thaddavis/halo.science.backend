@@ -37,6 +37,7 @@ module Backend
     config.hosts << "api.wishbliss.link"
 
     # config.web_console.permissions = '192.168.0.0/16'
-    config.web_console.whitelisted_ips = '192.168.0.0/16'
+    config.web_console.whitelisted_ips = '192.168.0.0/16', '172.0.0.0/8', '0.0.0.0/0'
+    # config.web_console.whitelisted_ips << '172.0.0.0/24'
   end
 end

@@ -13,7 +13,9 @@ class Wish < ApplicationRecord
     def update_wishlist
         puts "*** UPDATE_WISHLIST ***"
 
-        self.wishlist.touch
+        if self.wishlist
+            self.wishlist.touch
+        end
     end
 
     def readings
@@ -30,11 +32,13 @@ class Wish < ApplicationRecord
     def delete_readings
         puts "*** DELETE_READINGS ***"
 
-        user_id = self.wishlist.user_id
-        sql = "select w.*, b.* from wishes w, books b where b.id = w.thing_id"
-        records = ActiveRecord::Base.connection.execute(sql)
-        if records[0] && records[0]['id']
-            Reading.where(book_id: records[0]['id'], user_id: user_id).destroy_all
+        if self.wishlist && self.wishlist.user_id
+            user_id = self.wishlist.user_id
+            sql = "select w.*, b.* from wishes w, books b where b.id = w.thing_id"
+            records = ActiveRecord::Base.connection.execute(sql)
+            if records[0] && records[0]['id']
+                Reading.where(book_id: records[0]['id'], user_id: user_id).destroy_all
+            end
         end
     end
 

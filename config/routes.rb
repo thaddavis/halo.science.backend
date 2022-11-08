@@ -18,4 +18,5 @@ Rails.application.routes.draw do
   get "/genre_stats/:genre", to: "books#genre_stats"
   get "/first_owners", to: "books#first_owners"
   get "/users/give_away_possessions/:user_id", to: "users#give_away_possessions"
+  get "/users", to: "users#users"
 end

@@ -3,7 +3,7 @@ class UsersController < ApplicationController
 
     def give_away_possessions
 
-        puts "___ GIVE AWAY POSSESSIONS"
+        puts "___ GIVE AWAY POSSESSIONS ___"
         puts user_params[:user_id]
 
         user = User.includes(:owned_wishes).find(user_params[:user_id])
@@ -21,6 +21,12 @@ class UsersController < ApplicationController
         end
 
         render json: {}, status: 200
+    end
+
+    def users
+        puts "___ GET USERS __"
+        users = User.all
+        render json: users, status: 200
     end
 
     def user_params

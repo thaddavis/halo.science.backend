@@ -2,43 +2,55 @@ class WishlistsController < ActionController::Base
     skip_before_action :verify_authenticity_token
 
     def index
-        if params[:user_id]
-            wishlist = Wishlist.where(user_id: params[:user_id]).first
-            wishes = wishlist.wishes
-            owned_wishes = wishlist.wishes.preload(:owned_wish).collect(&:owned_wish)
-            
-            hydrated_wishlist = []
-            
-            wishes.each_with_index  { | value, index |
-                hydrated_value = {}    
-                hydrated_wish_val = {}
+        begin
+            # raise "This is an exception"
+
+            if params[:user_id]
+                wishlist = Wishlist.where(user_id: params[:user_id]).first
+
+                p '_ HELLO _'
+                p params[:user_id]
+                p wishlist
+                p '___'
+
+                wishes = wishlist.wishes
+                owned_wishes = wishlist.wishes.preload(:owned_wish).collect(&:owned_wish)
                 
-                case wishes[index].thing.class.name
-                when "Book"
-                    hydrated_wish_val[:author] = wishes[index].thing.author
-                    hydrated_wish_val[:book] = wishes[index].thing
-                    hydrated_wish_val[:readings] = wishes[index].thing.readings
-                else
-                    raise "UNSUPPORTED_WISH_TYPE"
-                end
+                hydrated_wishlist = []
+                
+                wishes.each_with_index  { | value, index |
+                    hydrated_value = {}    
+                    hydrated_wish_val = {}
+                    
+                    case wishes[index].thing.class.name
+                    when "Book"
+                        hydrated_wish_val[:author] = wishes[index].thing.author
+                        hydrated_wish_val[:book] = wishes[index].thing
+                        hydrated_wish_val[:readings] = wishes[index].thing.readings
+                    else
+                        raise "UNSUPPORTED_WISH_TYPE"
+                    end
 
-                hydrated_value[:id] = value[:id]
-                hydrated_value[:wish_type] = wishes[index].thing.class.name
-                hydrated_value[:wish_val] = hydrated_wish_val
-                hydrated_value[:owned] = owned_wishes[index] ? true : false
-                hydrated_value[:owned_id] = owned_wishes[index] ? owned_wishes[index].id : nil
+                    hydrated_value[:id] = value[:id]
+                    hydrated_value[:wish_type] = wishes[index].thing.class.name
+                    hydrated_value[:wish_val] = hydrated_wish_val
+                    hydrated_value[:owned] = owned_wishes[index] ? true : false
+                    hydrated_value[:owned_id] = owned_wishes[index] ? owned_wishes[index].id : nil
 
-                hydrated_wishlist << hydrated_value
-            }
+                    hydrated_wishlist << hydrated_value
+                }
 
-            result = {
-                :id => wishlist.id,
-                :items => hydrated_wishlist,
-                :updated_at => wishlist.updated_at,
-            } 
-            render :json => result
-        else 
-            return :status => 404
+                result = {
+                    :id => wishlist.id,
+                    :items => hydrated_wishlist,
+                    :updated_at => wishlist.updated_at,
+                } 
+                render :json => result
+            else 
+                render :json => "error", :status => 400
+            end
+        rescue Exception => e
+            render :json => "error", :status => 500
         end
     end
 
@@ -59,7 +71,7 @@ class WishlistsController < ActionController::Base
         if wishlist_item.save
             render :json => wishlist_item, :status => 200
         else
-            return :status => 500
+            render :json => "error", :status => 500
         end
     end
 
@@ -68,7 +80,7 @@ class WishlistsController < ActionController::Base
             Wish.destroy(params[:id])
             return :status => 200
         else 
-            return :status => 404
+            render :json => "error", :status => 404
         end
     end
 

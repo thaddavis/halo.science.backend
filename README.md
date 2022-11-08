@@ -10,8 +10,8 @@ rails db:rollback STEP=1
 
 reload!
 
-docker build -t thaddavis/ruby-docker .
+docker build -t thaddavis/ruby-docker:v18 .
 
 docker run -d -p 3000:3000 thaddavis/ruby-docker
 
-docker push thaddavis/ruby-docker:v10
+docker push thaddavis/ruby-docker:v18
